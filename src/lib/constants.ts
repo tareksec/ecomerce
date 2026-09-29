@@ -1,0 +1,65 @@
+export const SITE_CONFIG = {
+  name: "ZAYA ZEN",
+  tagline: "PANJABI & MENSWEAR",
+  description: "ZAYA ZEN — Premium Designer Panjabi and Modern Menswear in Bangladesh. Elegance in Every Thread.",
+  domain: "zayazenbd.com",
+  currency: {
+    symbol: "৳",
+    code: "BDT",
+    name: "Taka",
+  },
+  contact: {
+    phone: "+880 1700-000000",
+    whatsapp: "+8801700000000",
+    email: "support@zayazenbd.com",
+    address: "Dhaka, Bangladesh",
+    facebook: "https://www.facebook.com/zayazen.bd",
+    messenger: "https://m.me/zayazen.bd",
+  },
+  shipping: {
+    insideDhaka: 70,
+    outsideDhaka: 130,
+    freeThreshold: 3000,
+  },
+  announcement: [
+    "✨ Stock Clearance Offer is Live — Up to 40% Off Designer Panjabis!",
+    "🚚 Free Delivery on Orders Above ৳3,000 Anywhere in Bangladesh",
+    "💬 Order via WhatsApp or Messenger with Quick Confirmation",
+  ],
+  navLinks: [
+    { label: "Home", href: "/" },
+    {
+      label: "Panjabi",
+      href: "/shop/panjabi",
+      badge: "Popular",
+      children: [
+        { label: "All Panjabis", href: "/shop/panjabi" },
+        { label: "Designer Collection", href: "/shop/panjabi/designer" },
+        { label: "Semi-Formal Panjabi", href: "/shop/panjabi/semi-formal" },
+        { label: "Casual & Cotton", href: "/shop/panjabi/casual" },
+        { label: "Festive & Wedding", href: "/shop/panjabi/festive" },
+      ],
+    },
+    {
+      label: "Menswear",
+      href: "/shop/menswear",
+      children: [
+        { label: "All Menswear", href: "/shop/menswear" },
+        { label: "Formal Shirts", href: "/shop/shirts" },
+        { label: "Casual T-Shirts", href: "/shop/t-shirts" },
+        { label: "Pajamas & Trousers", href: "/shop/pajama-pants" },
+      ],
+    },
+    { label: "Stock Clearance", href: "/clearance", highlight: true, badge: "Sale" },
+    { label: "About Us", href: "/about" },
+    { label: "Contact", href: "/contact" },
+  ],
+  quickCategories: [
+    { name: "Designer Panjabi", slug: "designer-panjabi", count: "18 Styles" },
+    { name: "Cotton Panjabi", slug: "cotton-panjabi", count: "12 Styles" },
+    { name: "Semi-Formal", slug: "semi-formal", count: "9 Styles" },
+    { name: "Pajama & Pants", slug: "pajama-pants", count: "6 Styles" },
+    { name: "Premium Shirts", slug: "shirts", count: "14 Styles" },
+    { name: "Clearance Specials", slug: "clearance", count: "Up to 40% Off", isClearance: true },
+  ],
+};

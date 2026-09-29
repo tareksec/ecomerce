@@ -1,0 +1,180 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String     @id @default(cuid())
+  name          String?
+  email         String     @unique
+  passwordHash  String?
+  phone         String?
+  role          String     @default("CUSTOMER") // CUSTOMER, ADMIN
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  orders        Order[]
+  addresses     Address[]
+  reviews       Review[]
+  wishlists     Wishlist[]
+}
+
+model Address {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName    String
+  phone       String
+  district    String
+  thana       String
+  street      String
+  isDefault   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model Category {
+  id          String     @id @default(cuid())
+  name        String
+  nameBn      String?
+  slug        String     @unique
+  description String?
+  image       String?
+  parentId    String?
+  parent      Category?  @relation("CategoryParent", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryParent")
+  products    Product[]
+  sortOrder   Int        @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Product {
+  id          String           @id @default(cuid())
+  name        String
+  nameBn      String?
+  slug        String           @unique
+  description String
+  fabric      String?          // e.g. "100% Fine Combed Cotton - Very soft & breathable"
+  care        String?
+  basePrice   Int              // in BDT (integer units)
+  salePrice   Int?             // in BDT
+  isClearance Boolean          @default(false)
+  isActive    Boolean          @default(true)
+  ratingAvg   Float            @default(5.0)
+  ratingCount Int              @default(0)
+  categoryId  String
+  category    Category         @relation(fields: [categoryId], references: [id])
+  images      ProductImage[]
+  variants    ProductVariant[]
+  reviews     Review[]
+  orderItems  OrderItem[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model ProductImage {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  alt       String?
+  isPrimary Boolean  @default(false)
+  sortOrder Int      @default(0)
+}
+
+model ProductVariant {
+  id            String      @id @default(cuid())
+  productId     String
+  product       Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  size          String      // e.g. "38", "40", "42", "44"
+  color         String?
+  sku           String      @unique
+  stock         Int         @default(10)
+  priceOverride Int?
+  orderItems    OrderItem[]
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  number          String      @unique // e.g. "ZY-1001"
+  userId          String?
+  user            User?       @relation(fields: [userId], references: [id])
+  customerName    String
+  customerPhone   String
+  customerEmail   String?
+  shippingAddress String      // Serialized JSON address
+  subtotal        Int
+  discount        Int         @default(0)
+  shipping        Int         @default(70)
+  total           Int
+  currency        String      @default("BDT")
+  paymentMethod   String      // COD, BKASH, NAGAD, SSLCOMMERZ
+  paymentStatus   String      @default("PENDING") // PENDING, PAID, FAILED
+  orderStatus     String      @default("PENDING") // PENDING, CONFIRMED, PACKED, SHIPPED, DELIVERED, CANCELLED
+  notes           String?
+  items           OrderItem[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model OrderItem {
+  id         String          @id @default(cuid())
+  orderId    String
+  order      Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId  String
+  product    Product         @relation(fields: [productId], references: [id])
+  variantId  String?
+  variant    ProductVariant? @relation(fields: [variantId], references: [id])
+  unitPrice  Int
+  quantity   Int             @default(1)
+  totalPrice Int
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  name      String
+  rating    Int      @default(5)
+  comment   String
+  isVerified Boolean @default(true)
+  createdAt DateTime @default(now())
+}
+
+model Wishlist {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+}
+
+model Coupon {
+  id            String    @id @default(cuid())
+  code          String    @unique
+  discountType  String    // PERCENTAGE, FIXED
+  discountValue Int
+  minOrderValue Int       @default(0)
+  validUntil    DateTime?
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+}
+
+model Banner {
+  id        String   @id @default(cuid())
+  title     String
+  subtitle  String?
+  link      String?
+  imageUrl  String
+  badge     String?
+  type      String   @default("HERO") // HERO, PROMO, CLEARANCE
+  isActive  Boolean  @default(true)
+  sortOrder Int      @default(0)
+}

@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+:root {
+  /* Zaya Zen Brand Palette */
+  --ink-900: #111111;        /* logo black, headings, dark surfaces */
+  --ink-700: #262422;        /* subheadings */
+  --ink-500: #57534E;        /* body text */
+  --terracotta-500: #C4653F; /* primary accent: CTAs, badges, active nav, "ZEN" */
+  --terracotta-600: #A9532F; /* hover */
+  --terracotta-100: #F7E3DA; /* soft tint */
+  --sand-50: #FAFAF8;        /* page bg (warm off-white) */
+  --sand-100: #F1EEE8;       /* section bg / card backgrounds */
+  --sand-200: #E6E1D8;       /* borders & subtle dividers */
+  --stone-400: #8A8580;      /* tagline / muted secondary text */
+  --stone-200: #DDD9D2;
+  --line: #E7E3DC;           /* borders */
+  --surface: #FFFFFF;        /* clean card surface */
+  --star: #F5A524;           /* review rating amber */
+  --success: #2E7D5B;        /* green tags */
+}
+
+@theme {
+  --color-ink-900: #111111;
+  --color-ink-700: #262422;
+  --color-ink-500: #57534E;
+  --color-terracotta-500: #C4653F;
+  --color-terracotta-600: #A9532F;
+  --color-terracotta-100: #F7E3DA;
+  --color-sand-50: #FAFAF8;
+  --color-sand-100: #F1EEE8;
+  --color-sand-200: #E6E1D8;
+  --color-stone-400: #8A8580;
+  --color-stone-200: #DDD9D2;
+  --color-line: #E7E3DC;
+  --color-surface: #FFFFFF;
+  --color-star: #F5A524;
+  --color-success: #2E7D5B;
+  --font-poppins: var(--font-poppins, sans-serif);
+  --font-bengali: var(--font-bengali, sans-serif);
+}
+
+/* Base Styles */
+html {
+  background-color: var(--sand-50);
+  color: var(--ink-900);
+  font-family: var(--font-poppins, system-ui, sans-serif);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--sand-50);
+  color: var(--ink-900);
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--sand-50);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--sand-200);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--stone-400);
+}
+
+/* Lenis Smooth Scroll Styles */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Infinite Marquee Animation */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-33.333%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
